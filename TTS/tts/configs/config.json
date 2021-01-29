@@ -1,6 +1,6 @@
 {
     "model": "Tacotron2",
-    "run_name": "ljspeech-ddc",
+    "run_name": "sinhala-tacotron2-ddc",
     "run_description": "tacotron2 with DDC and differential spectral loss.",
 
     // AUDIO PARAMETERS
@@ -37,7 +37,8 @@
         "symmetric_norm": true, // move normalization to range [-1, 1]
         "max_norm": 4.0,        // scale normalization to range [-max_norm, max_norm] or [0, max_norm]
         "clip_norm": true,      // clip normalized values into the range.
-        "stats_path": "/home/erogol/Data/LJSpeech-1.1/scale_stats.npy"    // DO NOT USE WITH MULTI_SPEAKER MODEL. scaler stats file computed by 'compute_statistics.py'. If it is defined, mean-std based notmalization is used and other normalization params are ignored
+        // python TTS/bin/compute_statistics.py --config_path TTS/tts/configs/config.json --out_path=/home/datasets/sinhala/scale_stats.npy 
+        "stats_path": "/home/datasets/sinhala/scale_stats.npy"    // DO NOT USE WITH MULTI_SPEAKER MODEL. scaler stats file computed by 'compute_statistics.py'. If it is defined, mean-std based notmalization is used and other normalization params are ignored
     },
 
     // VOCABULARY PARAMETERS
@@ -135,12 +136,13 @@
     "use_noise_augment": true,
 
     // PATHS
-    "output_path": "/home/erogol/Models/LJSpeech/",
+    "output_path": "/home/models/sinhala/",
 
     // PHONEMES
-    "phoneme_cache_path": "/home/erogol/Models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
+    "phoneme_cache_path": "/home/models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
     "use_phonemes": true,           // use phonemes instead of raw characters. It is suggested for better pronounciation.
-    "phoneme_language": "en-us",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
+    "phoneme_language": "kn",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
+    // for sinhala use kn and add language_switch='remove-flags' when the phenomize is called - input should be in sinhala letters
 
     // MULTI-SPEAKER and GST
     "use_speaker_embedding": false,      // use speaker embedding to enable multi-speaker learning.
@@ -162,10 +164,12 @@
     "datasets":   // List of datasets. They all merged and they get different speaker_ids.
         [
             {
-                "name": "ljspeech",
-                "path": "/home/erogol/Data/LJSpeech-1.1/",
-                "meta_file_train": "metadata.csv", // for vtck if list, ignore speakers id in list for train, its useful for test cloning with new speakers
-                "meta_file_val": null
+                "name": "sinhala", // "ljspeech",
+                "path": "/home/datasets/sinhala/", //"/home/erogol/Data/LJSpeech-1.1/",
+                //"meta_file_train": "metadata.csv", // for vtck if list, ignore speakers id in list for train, its useful for test cloning with new speakers
+                //"meta_file_val": null,
+                "meta_file_train": "train_filelist.txt",
+                "meta_file_val": "val_filelist.txt"
             }
         ]
 }

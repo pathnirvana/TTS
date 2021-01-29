@@ -33,7 +33,7 @@ def text2phone(text, language):
     #try:
     punctuations = re.findall(PHONEME_PUNCTUATION_PATTERN, text)
     if version.parse(phonemizer.__version__) < version.parse('2.1'):
-        ph = phonemize(text, separator=seperator, strip=False, njobs=1, backend='espeak', language=language)
+        ph = phonemize(text, separator=seperator, strip=False, njobs=1, backend='espeak', language=language, language_switch='remove-flags')
         ph = ph[:-1].strip() # skip the last empty character
         # phonemizer does not tackle punctuations. Here we do.
         # Replace \n with matching punctuations.

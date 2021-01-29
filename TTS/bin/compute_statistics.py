@@ -19,7 +19,7 @@ def main():
         description="Compute mean and variance of spectrogtram features.")
     parser.add_argument("--config_path", type=str, required=True,
                         help="TTS config file path to define audio processin parameters.")
-    parser.add_argument("--out_path", default=None, type=str,
+    parser.add_argument("--out_path", default=None, type=str, required=True,
                         help="directory to save the output file.")
     args = parser.parse_args()
 
