@@ -203,6 +203,7 @@ def check_config_tts(c):
     # validation parameters
     check_argument('run_eval', c, restricted=True, val_type=bool)
     check_argument('test_delay_epochs', c, restricted=True, val_type=int, min_val=0)
+    check_argument('test_every_epochs', c, restricted=True, val_type=int, min_val=0)
     check_argument('test_sentences_file', c, restricted=False, val_type=str)
 
     # optimizer
