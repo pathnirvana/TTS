@@ -84,7 +84,7 @@
     "run_eval": true,
     "test_delay_epochs": 50,  //Until attention is aligned, testing only wastes computation time.
     "test_every_epochs": 25, // only test every this many epochs
-    // defined in some sinhala files in the train_tacotron.py explicitly
+    // defined some sinhala sentences in the train_tacotron.py explicitly
     "test_sentences_file": null,  // set a file to load sentences to be used for testing. If it is null then we use default english sentences.
 
     // OPTIMIZER

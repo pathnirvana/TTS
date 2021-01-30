@@ -36,7 +36,8 @@
         "symmetric_norm": true, // move normalization to range [-1, 1]
         "max_norm": 1.0,        // scale normalization to range [-max_norm, max_norm] or [0, max_norm]
         "clip_norm": true,      // clip normalized values into the range.
-        "stats_path": "/home/erogol/Data/LJSpeech-1.1/scale_stats.npy"    // DO NOT USE WITH MULTI_SPEAKER MODEL. scaler stats file computed by 'compute_statistics.py'. If it is defined, mean-std based notmalization is used and other normalization params are ignored
+        // python TTS/bin/compute_statistics.py --config_path TTS/tts/configs/config.json --out_path=/home/datasets/sinhala/scale_stats.npy 
+        "stats_path": "/home/datasets/sinhala/scale_stats.npy"    // DO NOT USE WITH MULTI_SPEAKER MODEL. scaler stats file computed by 'compute_statistics.py'. If it is defined, mean-std based notmalization is used and other normalization params are ignored
     },
 
     // VOCABULARY PARAMETERS
@@ -64,16 +65,30 @@
 
     // MODEL PARAMETERS
     "use_mas": false,       // use Monotonic Alignment Search if true. Otherwise use pre-computed attention alignments.
+    "hidden_channels_encoder": 192,
+    "hidden_channels_decoder": 192,
+    "hidden_channels_duration_predictor": 256,
+    "use_encoder_prenet": true,
+    "encoder_type": "gated_conv",
+    "encoder_params": {
+        "kernel_size":3,
+        "dropout_p": 0.1,
+        "num_layers": 6
+    },
 
     // TRAINING
     "batch_size": 32,       // Batch size for training. Lower values than 32 might cause hard to learn attention. It is overwritten by 'gradual_training'.
     "eval_batch_size":16,
     "r": 1,                 // Number of decoder frames to predict per iteration. Set the initial values if gradual training is enabled.
     "loss_masking": true,   // enable / disable loss masking against the sequence padding.
+    "mixed_precision": true,
+    "data_dep_init_iter": 10,
 
     // VALIDATION
     "run_eval": true,
-    "test_delay_epochs": 0,       //Until attention is aligned, testing only wastes computation time.
+    "test_delay_epochs": 50,  //Until attention is aligned, testing only wastes computation time.
+    "test_every_epochs": 25, // only test every this many epochs
+    // defined some sinhala sentences in the train_tacotron.py explicitly
     "test_sentences_file": null,  // set a file to load sentences to be used for testing. If it is null then we use default english sentences.
 
     // OPTIMIZER
@@ -84,8 +99,6 @@
     "wd": 0.000001,                // Weight decay weight.
     "warmup_steps": 4000,          // Noam decay steps to increase the learning rate from 0 to "lr"
     "seq_len_norm": false,         // Normalize eash sample loss with its length to alleviate imbalanced datasets. Use it if your dataset is small or has skewed distribution of sequence lengths.
-
-    "encoder_type": "gatedconv",
 
     // TENSORBOARD and LOGGING
     "print_step": 25,       // Number of steps to log training on console.
@@ -105,18 +118,20 @@
     "min_seq_len": 3,       // DATASET-RELATED: minimum text length to use in training
     "max_seq_len": 500,     // DATASET-RELATED: maximum text length
     "compute_f0": false,     // compute f0 values in data-loader
+    "use_noise_augment": true,  //add a random noise to audio signal for augmentation at training .
     "compute_input_seq_cache": false,  // if true, text sequences are computed before starting training. If phonemes are enabled, they are also computed at this stage.
 
     // PATHS
-    "output_path": "/home/erogol/Models/LJSpeech/",
+    "output_path": "/home/models/sinhala/",
 
     // PHONEMES
-    "phoneme_cache_path": "/home/erogol/Models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
+    "phoneme_cache_path": "/home/models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
     "use_phonemes": true,           // use phonemes instead of raw characters. It is suggested for better pronounciation.
-    "phoneme_language": "en-us",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
+    "phoneme_language": "kn",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
 
     // MULTI-SPEAKER and GST
     "use_speaker_embedding": false,     // use speaker embedding to enable multi-speaker learning.
+    "use_external_speaker_embedding_file": false,
     "style_wav_for_test": null,          // path to style wav file to be used in TacotronGST inference.
     "use_gst": false,       // TACOTRON ONLY: use global style tokens
 
@@ -124,10 +139,10 @@
     "datasets":   // List of datasets. They all merged and they get different speaker_ids.
         [
             {
-                "name": "ljspeech",
-                "path": "/home/erogol/Data/LJSpeech-1.1/",
-                "meta_file_train": "metadata.csv",
-                "meta_file_val": null
+                "name": "sinhala",
+                "path": "/home/datasets/sinhala/",
+                "meta_file_train": "train_filelist.txt",
+                "meta_file_val": "val_filelist.txt"
                 // "path_for_attn": "/home/erogol/Data/LJSpeech-1.1/alignments/"
             }
         ]

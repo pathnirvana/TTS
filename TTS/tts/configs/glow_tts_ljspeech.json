@@ -87,7 +87,9 @@
 
         // VALIDATION
         "run_eval": true,
-        "test_delay_epochs": 0,       //Until attention is aligned, testing only wastes computation time.
+        "test_delay_epochs": 50,  //Until attention is aligned, testing only wastes computation time.
+        "test_every_epochs": 25, // only test every this many epochs
+        // defined some sinhala sentences in the train_tacotron.py explicitly
         "test_sentences_file": null,  // set a file to load sentences to be used for testing. If it is null then we use default english sentences.
 
         // OPTIMIZER
@@ -120,12 +122,12 @@
         "compute_input_seq_cache": true,
 
         // PATHS
-        "output_path": "/home/erogol/Models/LJSpeech/",
+        "output_path": "/home/models/sinhala/",
 
         // PHONEMES
-        "phoneme_cache_path": "/home/erogol/Models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
+        "phoneme_cache_path": "/home/models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
         "use_phonemes": true,           // use phonemes instead of raw characters. It is suggested for better pronounciation.
-        "phoneme_language": "en-us",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
+        "phoneme_language": "kn",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
 
         // MULTI-SPEAKER and GST
         "use_speaker_embedding": false,     // use speaker embedding to enable multi-speaker learning.
@@ -137,10 +139,10 @@
         "datasets":   // List of datasets. They all merged and they get different speaker_ids.
             [
                 {
-                    "name": "ljspeech",
-                    "path": "/home/erogol/Data/LJSpeech-1.1/",
-                    "meta_file_train": "metadata.csv",
-                    "meta_file_val": null
+                    "name": "sinhala",
+                    "path": "/home/datasets/sinhala/",
+                    "meta_file_train": "train_filelist.txt",
+                    "meta_file_val": "val_filelist.txt"
                     // "path_for_attn": "/home/erogol/Data/LJSpeech-1.1/alignments/"
                 }
             ]

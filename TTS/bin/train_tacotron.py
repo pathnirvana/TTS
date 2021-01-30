@@ -429,13 +429,13 @@ def evaluate(data_loader, model, criterion, ap, global_step, epoch):
             tb_logger.tb_eval_stats(global_step, keep_avg.avg_values)
             tb_logger.tb_eval_figures(global_step, eval_figures)
 
-    if args.rank == 0 and epoch > c.test_delay_epochs and epoch % c.test_every_epochs == 0:
+    if args.rank == 0 and epoch >= c.test_delay_epochs and epoch % c.test_every_epochs == 0:
         if c.test_sentences_file is None:
             test_sentences = [
                 "ජනක ප්‍රදීප් ලියනගේ.",
                 "රගර් ගැහුවා කියල කොහොමද බූරුවො වොලි බෝල් නැති වෙන්නෙ.",
                 "රට්ඨපාල කුමරු ගිහිගෙය හැර පැවිදි වී සිටියි.",
-                "සිංගප්පූරුවේ හිටපු ජනාධිපති ලී ක්වාන් යූ වසර දෙකකට පමණ කැසිනෝවලට අවසරදී තිබුණත් පසුව දිගටම පවත්වාගෙන යයි."
+                "අජාසත් රජතුමාගේ ඇත් සේනාවේ අති භයානක ඇතෙක් සිටියා."
                 #"It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent.",
                 #"Be a voice, not an echo.",
                 #"I'm sorry Dave. I'm afraid I can't do that.",

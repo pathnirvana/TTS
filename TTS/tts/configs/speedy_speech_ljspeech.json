@@ -1,12 +1,12 @@
 {
     "model": "speedy_speech",
-    "run_name": "speedy-speech-ljspeech",
-    "run_description": "speedy-speech model for LJSpeech dataset.",
+    "run_name": "speedy-speech-sinhala",
+    "run_description": "speedy-speech model for sinhala dataset.",
 
     // AUDIO PARAMETERS
     "audio":{
          // stft parameters
-         "fft_size": 1024,         // number of stft frequency levels. Size of the linear spectogram frame.
+         "fft_size": 1024,        // number of stft frequency levels. Size of the linear spectogram frame.
          "win_length": 1024,      // stft window length in ms.
          "hop_length": 256,       // stft window hop-lengh in ms.
          "frame_length_ms": null, // stft window length in ms.If null, 'win_length' is used.
@@ -37,7 +37,8 @@
          "symmetric_norm": true, // move normalization to range [-1, 1]
          "max_norm": 4.0,        // scale normalization to range [-max_norm, max_norm] or [0, max_norm]
          "clip_norm": true,      // clip normalized values into the range.
-         "stats_path": "/home/erogol/Data/LJSpeech-1.1/scale_stats.npy"    // DO NOT USE WITH MULTI_SPEAKER MODEL. scaler stats file computed by 'compute_statistics.py'. If it is defined, mean-std based notmalization is used and other normalization params are ignored
+         // python TTS/bin/compute_statistics.py --config_path TTS/tts/configs/config.json --out_path=/home/datasets/sinhala/scale_stats.npy 
+         "stats_path": "/home/datasets/sinhala/scale_stats.npy"    // DO NOT USE WITH MULTI_SPEAKER MODEL. scaler stats file computed by 'compute_statistics.py'. If it is defined, mean-std based notmalization is used and other normalization params are ignored
     },
 
     // VOCABULARY PARAMETERS
@@ -93,7 +94,9 @@
 
     // VALIDATION
     "run_eval": true,
-    "test_delay_epochs": -1,       //Until attention is aligned, testing only wastes computation time.
+    "test_delay_epochs": 50,  //Until attention is aligned, testing only wastes computation time.
+    "test_every_epochs": 25, // only test every this many epochs
+    // defined some sinhala sentences in the train_tacotron.py explicitly
     "test_sentences_file": null,  // set a file to load sentences to be used for testing. If it is null then we use default english sentences.
 
     // OPTIMIZER
@@ -113,7 +116,7 @@
    "mixed_precision": false,
 
    // DATA LOADING
-   "text_cleaner": "english_cleaners",
+   "text_cleaner": "phoneme_cleaners",
    "enable_eos_bos_chars": false, // enable/disable beginning of sentence and end of sentence chars.
    "num_loader_workers": 8,        // number of training data loader processes. Don't set it too big. 4-8 are good values.
    "num_val_loader_workers": 8,    // number of evaluation data loader processes.
@@ -124,12 +127,12 @@
    "compute_input_seq_cache": false,  // if true, text sequences are computed before starting training. If phonemes are enabled, they are also computed at this stage.
 
    // PATHS
-   "output_path": "/home/erogol/Models/ljspeech/",
+   "output_path": "/home/models/sinhala",
 
    // PHONEMES
-   "phoneme_cache_path": "/home/erogol/Models/ljspeech_phonemes/",  // phoneme computation is slow, therefore, it caches results in the given folder.
+   "phoneme_cache_path": "/home/models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
    "use_phonemes": true,           // use phonemes instead of raw characters. It is suggested for better pronoun[ciation.
-   "phoneme_language": "en-us",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
+   "phoneme_language": "kn",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
 
    // MULTI-SPEAKER and GST
    "use_speaker_embedding": false,     // use speaker embedding to enable multi-speaker learning.
@@ -141,11 +144,12 @@
     "datasets":   // List of datasets. They all merged and they get different s$
     [
         {
-            "name": "ljspeech",
-            "path": "/home/erogol/Data/LJSpeech-1.1/",
-            "meta_file_train": "metadata.csv",
-            "meta_file_val": null,
-            "meta_file_attn_mask": "/home/erogol/Data/LJSpeech-1.1/metadata_attn_mask.txt"  // created by bin/compute_attention_masks.py
+            "name": "sinhala",
+            "path": "/home/datasets/sinhala/",
+            "meta_file_train": "train_filelist.txt",
+            "meta_file_val": "val_filelist.txt",
+            // todo - not sure how to create the following file
+            "meta_file_attn_mask": "/home/datasets/sinhala/metadata_attn_mask.txt"  // created by bin/compute_attention_masks.py
         }
     ]
 }
