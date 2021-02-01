@@ -37,8 +37,8 @@
          "symmetric_norm": true, // move normalization to range [-1, 1]
          "max_norm": 4.0,        // scale normalization to range [-max_norm, max_norm] or [0, max_norm]
          "clip_norm": true,      // clip normalized values into the range.
-         // python TTS/bin/compute_statistics.py --config_path TTS/tts/configs/config.json --out_path=/home/datasets/sinhala/scale_stats.npy 
-         "stats_path": "/home/datasets/sinhala/scale_stats.npy"    // DO NOT USE WITH MULTI_SPEAKER MODEL. scaler stats file computed by 'compute_statistics.py'. If it is defined, mean-std based notmalization is used and other normalization params are ignored
+         // python TTS/bin/compute_statistics.py --config_path TTS/tts/configs/config.json --out_path=/home/drive/datasets/sinhala/scale_stats.npy 
+         "stats_path": "/home/drive/datasets/sinhala/scale_stats.npy"    // DO NOT USE WITH MULTI_SPEAKER MODEL. scaler stats file computed by 'compute_statistics.py'. If it is defined, mean-std based notmalization is used and other normalization params are ignored
     },
 
     // VOCABULARY PARAMETERS
@@ -127,10 +127,10 @@
    "compute_input_seq_cache": false,  // if true, text sequences are computed before starting training. If phonemes are enabled, they are also computed at this stage.
 
    // PATHS
-   "output_path": "/home/models/sinhala",
+   "output_path": "/home/drive/models/sinhala",
 
    // PHONEMES
-   "phoneme_cache_path": "/home/models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
+   "phoneme_cache_path": "/home/drive/models/phoneme_cache/",  // phoneme computation is slow, therefore, it caches results in the given folder.
    "use_phonemes": true,           // use phonemes instead of raw characters. It is suggested for better pronoun[ciation.
    "phoneme_language": "kn",     // depending on your target language, pick one from  https://github.com/bootphon/phonemizer#languages
 
@@ -145,11 +145,11 @@
     [
         {
             "name": "sinhala",
-            "path": "/home/datasets/sinhala/",
+            "path": "/home/drive/datasets/sinhala/",
             "meta_file_train": "train_filelist.txt",
             "meta_file_val": "val_filelist.txt",
             // todo - not sure how to create the following file
-            "meta_file_attn_mask": "/home/datasets/sinhala/metadata_attn_mask.txt"  // created by bin/compute_attention_masks.py
+            "meta_file_attn_mask": "/home/drive/datasets/sinhala/metadata_attn_mask.txt"  // created by bin/compute_attention_masks.py
         }
     ]
 }
